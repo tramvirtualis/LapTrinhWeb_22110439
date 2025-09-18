@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Category Detail</title>
+    </head>
+<body>
+<div layout:fragment="content">
+    <h2>Category Detail</h2>
+    <dl class="row">
+        <dt class="col-sm-3">ID</dt>
+        <dd class="col-sm-9" th:text="${category.id}"></dd>
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9" th:text="${category.name}"></dd>
+        <dt class="col-sm-3">Description</dt>
+        <dd class="col-sm-9" th:text="${category.description}"></dd>
+    </dl>
+    <div class="d-flex gap-2">
+        <a class="btn btn-secondary" th:href="@{/categories}">Back</a>
+        <a class="btn btn-warning" th:href="@{'/categories/' + ${category.id} + '/edit'}">Edit</a>
+    </div>
+    </div>
+</body>
+</html>
+
+
