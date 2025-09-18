@@ -15,7 +15,7 @@ public class RoleFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         String path = req.getRequestURI().substring(req.getContextPath().length());
-        if (path.equals("/login") || path.equals("/login.jsp") || path.equals("/logout") || path.startsWith("/assets/")) {
+        if (path.equals("/login") || path.equals("/login.jsp") || path.equals("/logout") || path.startsWith("/assets/") || path.startsWith("/uploads/") || path.startsWith("/profile")) {
             chain.doFilter(request, response);
             return;
         }

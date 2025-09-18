@@ -1,10 +1,14 @@
-com\example\web\servlet\HomeServlet.class
+com\example\web\config\SiteMeshFilterConfig.class
 com\example\web\servlet\CategoryServlet.class
 com\example\web\model\Category.class
 com\example\web\model\User.class
 com\example\web\dao\CategoryDao.class
 com\example\web\dao\UserDao.class
 com\example\web\servlet\AuthServlet.class
-com\example\web\config\DataSeeder.class
+com\example\web\model\Profile.class
 com\example\web\security\RoleFilter.class
+com\example\web\servlet\HomeServlet.class
+com\example\web\servlet\ProfileServlet.class
+com\example\web\config\DataSeeder.class
+com\example\web\dao\ProfileDao.class
 com\example\web\jpa\JpaUtil.class
