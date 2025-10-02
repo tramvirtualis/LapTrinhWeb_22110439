@@ -1,12 +1,27 @@
 <div th:fragment="site-header">
     <header class="bg-light mb-4">
-        <div class="container d-flex align-items-center py-3">
-            <img class="header-img me-3" src="https://thegamepost.com/wp-content/uploads/2025/09/all-hollow-knight-silksong-trophies-achievements-list-1.webp" alt="Personal">
-            <h1 class="h4 m-0">Category Management</h1>
+        <div class="container d-flex align-items-center justify-content-between py-3">
+            <div class="d-flex align-items-center">
+                <img class="header-img me-3" src="https://thegamepost.com/wp-content/uploads/2025/09/all-hollow-knight-silksong-trophies-achievements-list-1.webp" alt="Personal">
+                <h1 class="h4 m-0">🎮 Games Store</h1>
+            </div>
+            <div th:if="${username}" class="d-flex align-items-center">
+                <span class="me-3">
+                    Welcome, <strong th:text="${username}"></strong> 
+                    <span class="badge bg-primary ms-1" th:text="${userRole}"></span>
+                </span>
+                <form th:action="@{/logout}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+                </form>
+            </div>
         </div>
         <nav class="navbar navbar-expand navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" th:href="@{/categories}">Home</a>
+                <a class="navbar-brand" th:href="@{/games}">Home</a>
+                <div class="navbar-nav">
+                    <a class="nav-link" th:href="@{/games}">Games</a>
+                    <a th:if="${userRole == 'CUSTOMER'}" class="nav-link" th:href="@{/orders}">My Purchases</a>
+                </div>
             </div>
         </nav>
     </header>

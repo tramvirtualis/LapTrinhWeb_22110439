@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title th:text="${game.id} != null ? 'Edit Game' : 'Add Game'"></title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h2 th:text="${game.id} != null ? 'Edit Game' : 'Add Game'"></h2>
+    <form th:action="${game.id} != null ? @{'/games/' + ${game.id}} : @{/games}" method="post" th:object="${game}">
+        <div class="mb-3">
+            <label class="form-label">Game Title</label>
+            <input type="text" class="form-control" th:field="*{title}" placeholder="Enter game title">
+            <div class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" rows="3" th:field="*{description}" placeholder="Enter game description"></textarea>
+            <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Genre</label>
+                    <select class="form-select" th:field="*{genre}">
+                        <option value="">Select Genre</option>
+                        <option value="Action">Action</option>
+                        <option value="Metroidvania">Metroidvania</option>
+                        <option value="Roguelike">Roguelike</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="RPG">RPG</option>
+                        <option value="Strategy">Strategy</option>
+                        <option value="Simulation">Simulation</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Racing">Racing</option>
+                        <option value="Fighting">Fighting</option>
+                        <option value="Puzzle">Puzzle</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Platformer">Platformer</option>
+                        <option value="Shooter">Shooter</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Platform</label>
+                    <select class="form-select" th:field="*{platform}">
+                        <option value="">Select Platform</option>
+                        <option value="PC">PC</option>
+                        <option value="PlayStation 5">PlayStation 5</option>
+                        <option value="PlayStation 4">PlayStation 4</option>
+                        <option value="Xbox Series X/S">Xbox Series X/S</option>
+                        <option value="Xbox One">Xbox One</option>
+                        <option value="Nintendo Switch">Nintendo Switch</option>
+                        <option value="Nintendo 3DS">Nintendo 3DS</option>
+                        <option value="Mobile">Mobile</option>
+                        <option value="VR">VR</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="text-danger" th:if="${#fields.hasErrors('platform')}" th:errors="*{platform}"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Price ($)</label>
+                    <input type="number" class="form-control" th:field="*{price}" step="0.01" min="0" placeholder="0.00">
+                    <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Image URL</label>
+                    <input type="url" class="form-control" th:field="*{imageUrl}" placeholder="https://example.com/game-image.jpg">
+                    <div class="form-text">Enter a URL to an image for this game</div>
+                    <div class="text-danger" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Save Game</button>
+            <a class="btn btn-secondary" th:href="@{/games}">Cancel</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Game Reviews</title>
+    <style>
+        .review-card {
+            border-left: 4px solid #007bff;
+        }
+        .star-rating-display {
+            color: #ffc107;
+            font-size: 1.2em;
+        }
+        .review-date {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>⭐ Reviews for <span th:text="${game.title}"></span></h2>
+        <a class="btn btn-primary" th:href="@{/games}">Back to Games</a>
+    </div>
+
+    <!-- Game Info -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <img th:if="${game.imageUrl != null and !game.imageUrl.isEmpty()}" 
+                         th:src="${game.imageUrl}" class="img-fluid rounded" alt="Game Image"
+                         onerror="this.src='https://via.placeholder.com/150x100?text=No+Image'">
+                    <img th:unless="${game.imageUrl != null and !game.imageUrl.isEmpty()}" 
+                         src="https://via.placeholder.com/150x100?text=No+Image" class="img-fluid rounded" alt="No Image">
+                </div>
+                <div class="col-md-10">
+                    <h5 th:text="${game.title}"></h5>
+                    <p class="text-muted" th:text="${game.description}"></p>
+                    <div>
+                        <span th:if="${game.genre != null and !game.genre.isEmpty()}" class="badge bg-primary me-1" th:text="${game.genre}"></span>
+                        <span th:if="${game.platform != null and !game.platform.isEmpty()}" class="badge bg-info me-1" th:text="${game.platform}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Review Button (for customers who purchased) -->
+    <div th:if="${userRole == 'CUSTOMER' and hasPurchased}" class="mb-3">
+        <a th:if="${userReview == null}" class="btn btn-success" th:href="@{'/reviews/add/' + ${game.id}}">
+            <i class="bi bi-star"></i> Add Review
+        </a>
+        <div th:if="${userReview != null}" class="alert alert-info">
+            <strong>Your Review:</strong> 
+            <span class="star-rating-display" th:text="${'★'.repeat(userReview.rating)}"></span>
+            <span th:text="${userReview.comment}"></span>
+            <div class="mt-2">
+                <a class="btn btn-sm btn-warning" th:href="@{'/reviews/edit/' + ${userReview.id}}">Edit Review</a>
+                <form th:action="@{'/reviews/delete/' + ${userReview.id}}" method="post" class="d-inline">
+                    <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm('Delete this review?')">Delete Review</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews List -->
+    <div th:if="${reviewPage.totalElements > 0}">
+        <h4>Customer Reviews (${reviewPage.totalElements})</h4>
+        <div class="row g-3">
+            <div class="col-12" th:each="review : ${reviewPage}">
+                <div class="card review-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <strong th:text="${review.user.username}"></strong>
+                                <div class="star-rating-display" th:text="${'★'.repeat(review.rating)}"></div>
+                            </div>
+                            <div class="text-end">
+                                <div class="review-date" th:text="${#temporals.format(review.reviewDate, 'MMM dd, yyyy')}"></div>
+                                <div th:if="${userRole == 'ADMIN'}" class="mt-1">
+                                    <form th:action="@{'/reviews/delete/' + ${review.id}}" method="post" class="d-inline">
+                                        <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('Delete this review?')">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mb-0" th:text="${review.comment}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- No Reviews Message -->
+    <div th:if="${reviewPage.totalElements == 0}" class="text-center py-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-muted">No reviews yet</h5>
+                <p class="card-text text-muted">Be the first to review this game!</p>
+                <div th:if="${userRole == 'CUSTOMER' and hasPurchased}">
+                    <a class="btn btn-primary" th:href="@{'/reviews/add/' + ${game.id}}">Add Review</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <nav th:if="${reviewPage.totalPages > 1}" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li th:classappend="${reviewPage.first} ? 'disabled'" class="page-item">
+                <a class="page-link" th:href="@{'/reviews/game/' + ${game.id} + '(page=' + ${reviewPage.number - 1} + ', size=' + ${reviewPage.size} + ')'}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
+                th:classappend="${i} == ${reviewPage.number} ? 'active'">
+                <a class="page-link" th:href="@{'/reviews/game/' + ${game.id} + '(page=' + ${i} + ', size=' + ${reviewPage.size} + ')'}" th:text="${i + 1}"></a>
+            </li>
+            <li th:classappend="${reviewPage.last} ? 'disabled'" class="page-item">
+                <a class="page-link" th:href="@{'/reviews/game/' + ${game.id} + '(page=' + ${reviewPage.number + 1} + ', size=' + ${reviewPage.size} + ')'}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
+

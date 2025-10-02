@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>User Dashboard - Games Store</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="h3 mb-0">🎮 Welcome to Games Store</h1>
+                        <p class="text-muted mb-0">Hello, <span th:text="${username}"></span>! Ready to discover amazing games?</p>
+                    </div>
+                    <div>
+                        <form th:action="@{/logout}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-outline-secondary">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-gradient-primary text-white">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 class="card-title">Discover Your Next Favorite Game!</h4>
+                                <p class="card-text mb-3">Browse our extensive collection of games, read reviews from other players, and build your gaming library.</p>
+                                <a th:href="@{/games}" class="btn btn-light">
+                                    <i class="fas fa-gamepad me-2"></i>Browse Games
+                                </a>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <i class="fas fa-trophy fa-5x opacity-50"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card border-primary">
+                    <div class="card-body text-center">
+                        <i class="fas fa-gamepad fa-3x text-primary mb-3"></i>
+                        <h4 class="card-title" th:text="${totalGames}">0</h4>
+                        <p class="card-text text-muted">Games Available</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user fa-3x text-success mb-3"></i>
+                        <h4 class="card-title">Customer</h4>
+                        <p class="card-text text-muted">Your Account Type</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">What would you like to do?</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                                        <h6 class="card-title">Browse Games</h6>
+                                        <p class="card-text">Explore our game collection and find your next adventure</p>
+                                        <a th:href="@{/games}" class="btn btn-primary">Browse Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-shopping-bag fa-3x text-success mb-3"></i>
+                                        <h6 class="card-title">My Purchases</h6>
+                                        <p class="card-text">View your purchased games and order history</p>
+                                        <a th:href="@{/orders}" class="btn btn-success">View Orders</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-star fa-3x text-warning mb-3"></i>
+                                        <h6 class="card-title">Reviews</h6>
+                                        <p class="card-text">Share your gaming experience with other players</p>
+                                        <a th:href="@{/games}" class="btn btn-warning">Write Reviews</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Your Gaming Features</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-check-circle text-success me-3"></i>
+                                    <div>
+                                        <h6 class="mb-0">Purchase Games</h6>
+                                        <small class="text-muted">Buy games and add them to your library</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-check-circle text-success me-3"></i>
+                                    <div>
+                                        <h6 class="mb-0">Write Reviews</h6>
+                                        <small class="text-muted">Share your thoughts on purchased games</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-check-circle text-success me-3"></i>
+                                    <div>
+                                        <h6 class="mb-0">Order History</h6>
+                                        <small class="text-muted">Track all your game purchases</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-check-circle text-success me-3"></i>
+                                    <div>
+                                        <h6 class="mb-0">Browse & Search</h6>
+                                        <small class="text-muted">Find games by title, genre, or platform</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

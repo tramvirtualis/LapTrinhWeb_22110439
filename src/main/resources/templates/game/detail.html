@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Game Detail</title>
+    <style>
+        .game-image-detail {
+            max-height: 400px;
+            object-fit: cover;
+            width: 100%;
+        }
+        .price-display {
+            font-size: 2em;
+            font-weight: bold;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>🎮 Game Details</h2>
+            <dl class="row">
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9" th:text="${game.id}"></dd>
+                <dt class="col-sm-3">Title</dt>
+                <dd class="col-sm-9" th:text="${game.title}"></dd>
+                <dt class="col-sm-3">Description</dt>
+                <dd class="col-sm-9" th:text="${game.description}"></dd>
+                <dt class="col-sm-3">Genre</dt>
+                <dd class="col-sm-9">
+                    <span th:if="${game.genre != null and !game.genre.isEmpty()}" class="badge bg-primary" th:text="${game.genre}"></span>
+                    <span th:unless="${game.genre != null and !game.genre.isEmpty()}" class="text-muted">Not specified</span>
+                </dd>
+                <dt class="col-sm-3">Platform</dt>
+                <dd class="col-sm-9">
+                    <span th:if="${game.platform != null and !game.platform.isEmpty()}" class="badge bg-info" th:text="${game.platform}"></span>
+                    <span th:unless="${game.platform != null and !game.platform.isEmpty()}" class="text-muted">Not specified</span>
+                </dd>
+                <dt class="col-sm-3">Price</dt>
+                <dd class="col-sm-9">
+                    <span th:if="${game.price != null}" class="price-display">$<span th:text="${#numbers.formatDecimal(game.price, 1, 2)}"></span></span>
+                    <span th:unless="${game.price != null}" class="text-muted">Not specified</span>
+                </dd>
+            </dl>
+            <div class="d-flex gap-2">
+                <a class="btn btn-secondary" th:href="@{/games}">Back to Games</a>
+                <a th:if="${userRole == 'ADMIN'}" class="btn btn-warning" th:href="@{'/games/' + ${game.id} + '/edit'}">Edit Game</a>
+                
+                <!-- Customer Purchase/Review Actions -->
+                <div th:if="${userRole == 'CUSTOMER'}">
+                    <!-- Buy Button (if not purchased) -->
+                    <form th:if="${!hasPurchased}" th:action="@{'/orders/purchase/' + ${game.id}}" method="post" class="d-inline">
+                        <button class="btn btn-success" type="submit">
+                            <i class="bi bi-cart-plus"></i> Buy Now
+                        </button>
+                    </form>
+                    
+                    <!-- Purchased Actions -->
+                    <div th:if="${hasPurchased}" class="d-flex gap-2">
+                        <span class="badge bg-success fs-6">✅ Purchased</span>
+                        <a th:if="${userReview == null}" class="btn btn-primary" th:href="@{'/reviews/add/' + ${game.id}}">
+                            <i class="bi bi-star"></i> Add Review
+                        </a>
+                        <a th:if="${userReview != null}" class="btn btn-warning" th:href="@{'/reviews/edit/' + ${userReview.id}}">
+                            <i class="bi bi-pencil"></i> Edit Review
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Game Image</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div th:if="${game.imageUrl != null and !game.imageUrl.isEmpty()}">
+                        <img th:src="${game.imageUrl}" class="game-image-detail" alt="Game Image" 
+                             onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                    </div>
+                    <div th:unless="${game.imageUrl != null and !game.imageUrl.isEmpty()}">
+                        <img src="https://via.placeholder.com/400x300?text=No+Image" class="game-image-detail" alt="No Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
