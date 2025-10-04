@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin</title></head>
+<body>
+<h2>Trang quản trị</h2>
+<p th:text="'Tài khoản: ' + ${#authentication.name}"></p>
+<a href="/">Quay lại trang chủ</a>
+</body>
+</html>
